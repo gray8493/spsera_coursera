@@ -1,0 +1,52 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum RequestStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+enum ServiceType {
+  FULL_SUPPORT
+  SKIP_VIDEO
+}
+
+enum PaymentStatus {
+  UNPAID
+  PAID
+  VERIFIED
+}
+
+model Admin {
+  id        String   @id @default(uuid())
+  username  String   @unique
+  password  String
+  createdAt DateTime @default(now())
+}
+
+model CourseraRequest {
+  id            String        @id @default(uuid())
+  email         String
+  password      String
+  courseTarget   String?
+  fptCode       String?
+  serviceType   ServiceType   @default(FULL_SUPPORT)
+  paymentAmount Int           @default(79000)
+  paymentStatus PaymentStatus @default(UNPAID)
+  status        RequestStatus @default(PENDING)
+  adminNotes    String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([status])
+  @@index([email])
+  @@index([paymentStatus])
+}
