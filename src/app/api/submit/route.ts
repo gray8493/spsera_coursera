@@ -4,6 +4,7 @@ import { resend } from "@/lib/resend";
 import { escapeHtml } from "@/lib/sanitize";
 import { requestSchema } from "@/lib/validation";
 import { PRICING } from "@/lib/payment";
+import { getAppUrl } from "@/lib/site";
 
 export const runtime = "nodejs";
 
@@ -38,7 +39,7 @@ export async function POST(req: Request) {
 
     const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL || process.env.ADMIN_ALERT_EMAIL;
     if (adminEmail) {
-      const adminDashboardUrl = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/admin/dashboard`;
+      const adminDashboardUrl = `${getAppUrl(req)}/admin/dashboard`;
       const serviceLabel = data.serviceType === "FULL_SUPPORT" ? "Hỗ trợ toàn diện (79K)" : "Skip Video & Reading (20K)";
 
       try {

@@ -10,14 +10,14 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-slate-100 bg-white/90 backdrop-blur-md">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-        <div>
+      <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+        <div className="min-w-0">
           <Link href="/" className="text-sm font-semibold tracking-wide text-slate-900">
             {t.nav.brand}
           </Link>
-          <p className="text-xs text-slate-500">{t.nav.tagline}</p>
+          <p className="text-xs text-slate-500 sm:max-w-xl">{t.nav.tagline}</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 self-start sm:self-auto">
           <Button
             variant="ghost"
             size="sm"

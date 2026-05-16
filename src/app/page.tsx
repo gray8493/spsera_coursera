@@ -93,16 +93,16 @@ export default function HomePage() {
 
 
       {/* Pricing */}
-      <section id="pricing" className="bg-slate-50 py-20">
+      <section id="pricing" className="bg-slate-50 py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto mb-16 max-w-2xl text-center">
+          <div className="mx-auto mb-12 max-w-2xl text-center sm:mb-16">
             <h2 className="text-3xl font-bold text-slate-900 sm:text-4xl">{t.pricing.title}</h2>
             <p className="mt-4 text-lg text-slate-600">{t.pricing.subtitle}</p>
           </div>
-          <div className="mx-auto grid max-w-4xl gap-8 sm:grid-cols-2">
+          <div className="mx-auto grid max-w-4xl gap-6 sm:grid-cols-2 sm:gap-8">
             {/* Full Support */}
             <div
-              className={`relative cursor-pointer rounded-2xl border-2 p-8 transition-all hover:shadow-xl ${
+              className={`relative cursor-pointer rounded-2xl border-2 p-6 transition-all hover:shadow-xl sm:p-8 ${
                 serviceType === "FULL_SUPPORT"
                   ? "border-blue-600 bg-white shadow-lg ring-2 ring-blue-100"
                   : "border-slate-200 bg-white hover:border-blue-300"
@@ -148,7 +148,7 @@ export default function HomePage() {
 
             {/* Skip Video */}
             <div
-              className={`relative cursor-pointer rounded-2xl border-2 p-8 transition-all hover:shadow-xl ${
+              className={`relative cursor-pointer rounded-2xl border-2 p-6 transition-all hover:shadow-xl sm:p-8 ${
                 serviceType === "SKIP_VIDEO"
                   ? "border-blue-600 bg-white shadow-lg ring-2 ring-blue-100"
                   : "border-slate-200 bg-white hover:border-blue-300"
@@ -193,9 +193,9 @@ export default function HomePage() {
 
       {/* Stats */}
       <section className="border-y border-slate-100 bg-white">
-        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-0 sm:grid-cols-4">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-0 sm:grid-cols-2 lg:grid-cols-4">
           {t.stats.items.map((stat, i) => (
-            <div key={i} className="flex flex-col items-center border-r border-slate-100 px-6 py-10 last:border-r-0 sm:[&:nth-child(2)]:border-r">
+            <div key={i} className="flex flex-col items-center border-r border-slate-100 px-6 py-8 last:border-r-0 sm:py-10 sm:[&:nth-child(2)]:border-r lg:[&:nth-child(2)]:border-r">
               <span className="text-3xl font-bold text-blue-600 sm:text-4xl">{stat.value}</span>
               <span className="mt-2 text-sm text-slate-500">{stat.label}</span>
             </div>
@@ -204,15 +204,15 @@ export default function HomePage() {
       </section>
 
       {/* How It Works */}
-      <section id="how-it-works" className="bg-slate-50 py-20">
+      <section id="how-it-works" className="bg-slate-50 py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto mb-16 max-w-2xl text-center">
+          <div className="mx-auto mb-12 max-w-2xl text-center sm:mb-16">
             <h2 className="text-3xl font-bold text-slate-900 sm:text-4xl">{t.howItWorks.title}</h2>
             <p className="mt-4 text-lg text-slate-600">{t.howItWorks.subtitle}</p>
           </div>
-          <div className="grid gap-8 sm:grid-cols-3">
+          <div className="grid gap-6 sm:grid-cols-3 sm:gap-8">
             {t.howItWorks.steps.map((step, i) => (
-              <div key={i} className="group relative rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-all hover:border-blue-200 hover:shadow-md">
+              <div key={i} className="group relative rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all hover:border-blue-200 hover:shadow-md sm:p-8">
                 <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600 text-lg font-bold text-white">
                   {step.num}
                 </div>
@@ -230,18 +230,18 @@ export default function HomePage() {
       </section>
 
       {/* Submit Form / Payment */}
-      <section id="submit-form" className="bg-white py-20">
+      <section id="submit-form" className="bg-white py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-xl">
             {showPayment ? (
               /* Payment QR */
               <Card className="border-slate-200 shadow-xl">
-                <CardHeader className="space-y-2 text-center">
+                <CardHeader className="space-y-2 px-5 text-center sm:px-6">
                   <CardTitle className="text-2xl text-slate-900">{t.payment.title}</CardTitle>
                   <CardDescription>{t.payment.scanQr}</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="flex flex-col sm:flex-row gap-6">
+                <CardContent className="space-y-5 px-5 sm:space-y-6 sm:px-6">
+                  <div className="flex flex-col gap-5 sm:flex-row sm:gap-6">
                     {/* VietQR */}
                     <div className="flex-1 space-y-4">
                       <div className="flex justify-center">
@@ -252,7 +252,7 @@ export default function HomePage() {
                             alt="VietQR Payment"
                             width={200}
                             height={200}
-                            className="rounded-xl"
+                            className="h-auto w-full max-w-[200px] rounded-xl"
                           />
                         </div>
                       </div>
@@ -285,10 +285,10 @@ export default function HomePage() {
 
                     {/* PayPal */}
                     <div className="flex-1 space-y-4">
-                      <div className="rounded-xl border border-slate-200 bg-blue-50 p-4 h-full flex flex-col justify-center items-center text-center">
+                      <div className="flex h-full flex-col items-center justify-center rounded-xl border border-slate-200 bg-blue-50 p-4 text-center">
                         <h4 className="mb-4 text-lg font-semibold text-blue-900">{t.payment.paypalTitle}</h4>
                         <p className="text-sm text-blue-700 mb-6">{t.payment.paypalNote}</p>
-                        <div className="space-y-3 w-full text-sm">
+                        <div className="w-full space-y-3 text-sm">
                           <div className="flex justify-between bg-white px-4 py-2 rounded-lg border border-blue-100">
                             <span className="text-slate-500">PayPal Email</span>
                             <span className="font-medium text-slate-900 text-right">{PAYPAL_INFO.email}</span>
@@ -315,7 +315,7 @@ export default function HomePage() {
                     <p className="text-sm text-amber-800">{t.payment.note}</p>
                   </Alert>
 
-                  <div className="flex gap-3">
+                  <div className="flex flex-col gap-3 sm:flex-row">
                     <Button
                       variant="outline"
                       className="flex-1"
@@ -336,19 +336,19 @@ export default function HomePage() {
             ) : (
               /* Submit Form */
               <Card className="border-slate-200 shadow-xl">
-                <CardHeader className="space-y-2 text-center">
+                <CardHeader className="space-y-2 px-5 text-center sm:px-6">
                   <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 mb-2">
                     <Lock className="h-6 w-6" />
                   </div>
                   <CardTitle className="text-2xl text-slate-900">{t.form.title}</CardTitle>
                   <CardDescription>{t.form.desc}</CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="px-5 sm:px-6">
                   <form className="space-y-5" onSubmit={handleSubmit}>
                     {/* Service Type */}
                     <div className="space-y-2">
                       <Label>{t.form.service}</Label>
-                      <div className="grid grid-cols-2 gap-3">
+                      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                         <button
                           type="button"
                           className={`rounded-xl border-2 p-3 text-left text-sm transition-all ${
