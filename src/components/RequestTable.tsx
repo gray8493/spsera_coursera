@@ -21,18 +21,24 @@ import {
 import { RefreshCw, Eye, EyeOff, Search, Filter } from "lucide-react";
 import { toast } from "sonner";
 
-type CourseraRequest = {
+export type RequestStatus = "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED";
+
+export type CourseraRequestRow = {
   id: string;
   email: string;
   password: string;
-  courseTarget: string;
+  courseTarget: string | null;
   serviceType: string;
   paymentAmount: number;
   paymentStatus: string;
-  status: string;
+  status: RequestStatus;
   adminNotes: string | null;
   createdAt: string;
   updatedAt: string;
+};
+
+type RequestTableProps = {
+  initialData?: CourseraRequestRow[];
 };
 
 const STATUS_LABELS: Record<string, { label: string; className: string }> = {
@@ -53,9 +59,9 @@ const SERVICE_LABELS: Record<string, string> = {
   SKIP_VIDEO: "Skip Video (20K)",
 };
 
-export function RequestTable() {
-  const [requests, setRequests] = useState<CourseraRequest[]>([]);
-  const [loading, setLoading] = useState(true);
+export function RequestTable({ initialData = [] }: RequestTableProps) {
+  const [requests, setRequests] = useState<CourseraRequestRow[]>(initialData);
+  const [loading, setLoading] = useState(initialData.length === 0);
   const [visiblePasswords, setVisiblePasswords] = useState<Set<string>>(new Set());
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("ALL");
@@ -76,8 +82,10 @@ export function RequestTable() {
   }, []);
 
   useEffect(() => {
-    fetchRequests();
-  }, [fetchRequests]);
+    if (initialData.length === 0) {
+      fetchRequests();
+    }
+  }, [fetchRequests, initialData.length]);
 
   const togglePassword = (id: string) => {
     setVisiblePasswords((prev) => {
@@ -108,7 +116,7 @@ export function RequestTable() {
     const matchSearch =
       searchTerm === "" ||
       r.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      r.courseTarget.toLowerCase().includes(searchTerm.toLowerCase());
+      (r.courseTarget ?? "").toLowerCase().includes(searchTerm.toLowerCase());
     const matchStatus = statusFilter === "ALL" || r.status === statusFilter;
     const matchPayment = paymentFilter === "ALL" || r.paymentStatus === paymentFilter;
     return matchSearch && matchStatus && matchPayment;
@@ -116,7 +124,6 @@ export function RequestTable() {
 
   return (
     <div className="space-y-4">
-      {/* Toolbar */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-2">
           <div className="relative flex-1 sm:w-64">
@@ -159,7 +166,6 @@ export function RequestTable() {
         </Button>
       </div>
 
-      {/* Summary */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
         <div className="rounded-lg bg-slate-50 p-3 text-center">
           <p className="text-xl font-bold text-slate-900">{requests.length}</p>
@@ -185,7 +191,6 @@ export function RequestTable() {
         </div>
       </div>
 
-      {/* Table */}
       <div className="overflow-auto rounded-lg border border-slate-200">
         <Table>
           <TableHeader>
@@ -223,7 +228,7 @@ export function RequestTable() {
                         </button>
                       </div>
                     </TableCell>
-                    <TableCell className="max-w-[160px] truncate text-sm">{r.courseTarget}</TableCell>
+                    <TableCell className="max-w-[160px] truncate text-sm">{r.courseTarget ?? "-"}</TableCell>
                     <TableCell className="text-xs">{SERVICE_LABELS[r.serviceType] || r.serviceType}</TableCell>
                     <TableCell>
                       <Select value={r.paymentStatus} onValueChange={(v) => updateField(r.id, "paymentStatus", v)}>

@@ -114,7 +114,7 @@ export function RequestDetailDialog({ request, onClose, onSaved }: RequestDetail
               </div>
               <div className="space-y-2 sm:col-span-2">
                 <Label>Course Target</Label>
-                <Input readOnly value={request.courseTarget} />
+                <Input readOnly value={request.courseTarget ?? ""} />
               </div>
               <div className="space-y-2">
                 <Label>Trạng thái</Label>
