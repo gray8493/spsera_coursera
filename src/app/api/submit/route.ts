@@ -39,7 +39,7 @@ export async function POST(req: Request) {
     const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL || process.env.ADMIN_ALERT_EMAIL;
     if (adminEmail) {
       const adminDashboardUrl = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/admin/dashboard`;
-      const serviceLabel = data.serviceType === "FULL_SUPPORT" ? "Hỗ trợ toàn diện (79K)" : "Skip Video (20K)";
+      const serviceLabel = data.serviceType === "FULL_SUPPORT" ? "Hỗ trợ toàn diện (79K)" : "Skip Video & Reading (20K)";
 
       try {
         await resend.emails.send({

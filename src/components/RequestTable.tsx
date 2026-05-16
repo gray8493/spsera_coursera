@@ -56,7 +56,7 @@ const PAYMENT_LABELS: Record<string, { label: string; className: string }> = {
 
 const SERVICE_LABELS: Record<string, string> = {
   FULL_SUPPORT: "Toàn diện (79K)",
-  SKIP_VIDEO: "Skip Video (20K)",
+  SKIP_VIDEO: "Skip Video & Reading (20K)",
 };
 
 export function RequestTable({ initialData = [] }: RequestTableProps) {
