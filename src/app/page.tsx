@@ -8,9 +8,6 @@ import {
   ExternalLink,
   CheckCircle2,
   Lock,
-  Users,
-  RefreshCw,
-  Headphones,
   ArrowRight,
   Star,
   Zap,
@@ -26,8 +23,6 @@ import { PRICING, PRICING_USD, PAYPAL_INFO, getVietQrUrl, generateTransferConten
 import type { ServiceType } from "@/lib/payment";
 
 const COURSERA_LOGIN_URL = "https://www.coursera.org/?authMode=login";
-
-const trustIcons = [Lock, Users, RefreshCw, Headphones];
 
 export default function HomePage() {
   const { t } = useI18n();
@@ -233,30 +228,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* Trust */}
-      <section className="bg-white py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h2 className="mx-auto mb-16 max-w-2xl text-center text-3xl font-bold text-slate-900 sm:text-4xl">
-            {t.trust.title}
-          </h2>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {t.trust.items.map((item, i) => {
-              const Icon = trustIcons[i];
-              return (
-                <div key={i} className="rounded-2xl border border-slate-100 bg-gradient-to-b from-white to-slate-50 p-6 text-center transition-all hover:border-blue-200 hover:shadow-lg">
-                  <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50">
-                    <Icon className="h-6 w-6 text-blue-600" />
-                  </div>
-                  <h3 className="mb-2 font-semibold text-slate-900">{item.title}</h3>
-                  <p className="text-sm text-slate-500">{item.desc}</p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
 
       {/* Submit Form / Payment */}
       <section id="submit-form" className="bg-white py-20">
