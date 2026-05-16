@@ -5,7 +5,6 @@ import { toast } from "sonner";
 import {
   Eye,
   EyeOff,
-  ShieldCheck,
   ExternalLink,
   CheckCircle2,
   Lock,

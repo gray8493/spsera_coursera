@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 
 export const runtime = "nodejs";
 
-export async function GET(req: Request) {
+export async function GET() {
   try {
     const existingAdmin = await db.admin.findUnique({
       where: { username: "admin" }
