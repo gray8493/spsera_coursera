@@ -91,6 +91,77 @@ export default function HomePage() {
     <div className="min-h-screen">
       <Navbar />
 
+      {/* Hero */}
+      <section className="overflow-hidden bg-gradient-to-b from-slate-50 via-white to-white">
+        <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-[1.1fr_0.9fr] lg:px-8 lg:py-24">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-4 py-1.5 text-sm font-semibold text-blue-700">
+              {t.hero.badge}
+            </div>
+            <h1 className="mt-5 text-4xl font-black tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
+              {t.hero.title}
+            </h1>
+            <p className="mt-5 max-w-xl text-lg leading-8 text-slate-600">
+              {t.hero.subtitle}
+            </p>
+
+            <div className="mt-8 grid max-w-xl gap-3 sm:grid-cols-3">
+              {t.hero.highlights.map((item) => (
+                <div
+                  key={item}
+                  className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm"
+                >
+                  <CheckCircle2 className="h-4 w-4 flex-shrink-0 text-emerald-600" />
+                  <span className="text-sm font-medium text-slate-700">{item}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Button
+                className="bg-blue-600 px-6 hover:bg-blue-700"
+                onClick={() => document.getElementById("pricing")?.scrollIntoView({ behavior: "smooth" })}
+              >
+                Xem gói dịch vụ
+              </Button>
+              <Button
+                variant="outline"
+                className="px-6"
+                onClick={() => document.getElementById("submit-form")?.scrollIntoView({ behavior: "smooth" })}
+              >
+                Gửi yêu cầu ngay
+              </Button>
+            </div>
+          </div>
+
+          <div className="relative">
+            <div className="absolute -left-8 top-10 h-28 w-28 rounded-full bg-blue-200/40 blur-3xl" />
+            <div className="absolute -right-6 bottom-6 h-36 w-36 rounded-full bg-emerald-200/40 blur-3xl" />
+            <div className="relative rounded-3xl border border-slate-200 bg-white p-6 shadow-2xl shadow-blue-100/30 sm:p-8">
+              <div className="rounded-2xl bg-slate-950 p-5 text-white">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-semibold text-slate-300">Dịch vụ hỗ trợ</span>
+                  <span className="rounded-full bg-emerald-500/15 px-3 py-1 text-xs font-semibold text-emerald-300">Online</span>
+                </div>
+                <div className="mt-6 space-y-4">
+                  <div className="rounded-2xl bg-white/8 p-4 ring-1 ring-white/10">
+                    <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Nhanh chóng</p>
+                    <p className="mt-2 text-base font-semibold">Quy trình rõ ràng, xử lý gọn.</p>
+                  </div>
+                  <div className="rounded-2xl bg-white/8 p-4 ring-1 ring-white/10">
+                    <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Uy tín</p>
+                    <p className="mt-2 text-base font-semibold">Theo dõi tiến độ minh bạch.</p>
+                  </div>
+                  <div className="rounded-2xl bg-white/8 p-4 ring-1 ring-white/10">
+                    <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Bảo mật</p>
+                    <p className="mt-2 text-base font-semibold">Giữ thông tin an toàn và riêng tư.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Pricing */}
       <section id="pricing" className="bg-slate-50 py-16 sm:py-20">

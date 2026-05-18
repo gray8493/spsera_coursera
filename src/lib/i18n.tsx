@@ -17,6 +17,11 @@ const vi = {
     title: "Hoàn thành khóa học Coursera của bạn một cách dễ dàng.",
     subtitle:
       "Chúng tôi hỗ trợ bạn hoàn thành các bài kiểm tra, bài tập và chứng chỉ Coursera với chi phí hợp lý, bảo mật tuyệt đối.",
+    highlights: [
+      "Hoàn thành nhanh chóng",
+      "Uy tín",
+      "Bảo mật",
+    ],
   },
   howItWorks: {
     title: "Quy trình hoạt động",
@@ -144,6 +149,7 @@ const en: Translations = {
     title: "Complete your Coursera courses with ease.",
     subtitle:
       "We help you complete Coursera quizzes, assignments and certificates at affordable prices with absolute security.",
+    highlights: ["Fast completion", "Trusted", "Secure"],
   },
   howItWorks: {
     title: "How It Works",
