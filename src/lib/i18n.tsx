@@ -86,8 +86,8 @@ const vi = {
     passwordPh: "Nhập mật khẩu",
     course: "Course ID hoặc Coursera URL",
     coursePh: "https://www.coursera.org/learn/...",
-    fptCode: "Mã môn học (SV FPT)",
-    fptCodePh: "Ví dụ: ENW293c, CSI104, ... (bỏ trống nếu không phải SV FPT)",
+    fptCode: "Mã môn học nếu là SV FPT",
+    fptCodePh: "Ví dụ: ENW293c, CSI104, ... (chỉ nhập nếu là SV FPT)",
     service: "Loại dịch vụ",
     forgotHelper:
       "Chưa có tài khoản hoặc quên mật khẩu? Hãy truy cập Coursera, nhấn quên mật khẩu để tạo mật khẩu mới, sau đó điền mật khẩu đó vào biểu mẫu này.",

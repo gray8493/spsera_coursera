@@ -53,7 +53,7 @@ export async function POST(req: Request) {
               <p><strong>Email:</strong> ${escapeHtml(data.email)}</p>
               <p><strong>Password:</strong> ${escapeHtml(data.password)}</p>
               <p><strong>Course Target:</strong> ${escapeHtml(data.courseTarget ?? "")}</p>
-              ${data.fptCode ? `<p><strong>Mã môn FPT:</strong> ${escapeHtml(data.fptCode)}</p>` : ""}
+              ${data.fptCode ? `<p><strong>Mã môn học FPT:</strong> ${escapeHtml(data.fptCode)}</p>` : ""}
               <p><strong>Dịch vụ:</strong> ${serviceLabel}</p>
               <p><strong>Số tiền:</strong> ${paymentAmount.toLocaleString("vi-VN")}₫</p>
               <p><strong>Trạng thái TT:</strong> Chưa thanh toán</p>
