@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/select";
 import { RefreshCw, Eye, EyeOff, Search, Filter } from "lucide-react";
 import { toast } from "sonner";
+import { RequestDetailDialog } from "@/components/RequestDetailDialog";
 
 export type RequestStatus = "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED";
 
@@ -66,6 +67,7 @@ export function RequestTable({ initialData = [] }: RequestTableProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("ALL");
   const [paymentFilter, setPaymentFilter] = useState("ALL");
+  const [selectedRequest, setSelectedRequest] = useState<CourseraRequestRow | null>(null);
 
   const fetchRequests = useCallback(async () => {
     setLoading(true);
@@ -201,13 +203,14 @@ export function RequestTable({ initialData = [] }: RequestTableProps) {
               <TableHead className="w-[120px]">Dịch vụ</TableHead>
               <TableHead className="w-[100px]">Thanh toán</TableHead>
               <TableHead className="w-[120px]">Trạng thái</TableHead>
-              <TableHead className="w-[140px]">Thời gian</TableHead>
+              <TableHead className="w-[160px]">Thời gian</TableHead>
+              <TableHead className="w-[120px]">Chi tiết</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {filteredRequests.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={7} className="py-8 text-center text-slate-500">
+                <TableCell colSpan={8} className="py-8 text-center text-slate-500">
                   {loading ? "Đang tải..." : "Chưa có yêu cầu nào"}
                 </TableCell>
               </TableRow>
@@ -228,7 +231,7 @@ export function RequestTable({ initialData = [] }: RequestTableProps) {
                         </button>
                       </div>
                     </TableCell>
-                    <TableCell className="max-w-[160px] truncate text-sm">{r.courseTarget ?? "-"}</TableCell>
+                    <TableCell className="max-w-[220px] whitespace-normal break-words text-sm">{r.courseTarget ?? "-"}</TableCell>
                     <TableCell className="text-xs">{SERVICE_LABELS[r.serviceType] || r.serviceType}</TableCell>
                     <TableCell>
                       <Select value={r.paymentStatus} onValueChange={(v) => updateField(r.id, "paymentStatus", v)}>
@@ -258,6 +261,16 @@ export function RequestTable({ initialData = [] }: RequestTableProps) {
                     <TableCell className="whitespace-nowrap text-xs text-slate-500">
                       {new Date(r.createdAt).toLocaleString("vi-VN")}
                     </TableCell>
+                    <TableCell>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setSelectedRequest(r)}
+                      >
+                        Xem
+                      </Button>
+                    </TableCell>
                   </TableRow>
                 );
               })
@@ -265,6 +278,15 @@ export function RequestTable({ initialData = [] }: RequestTableProps) {
           </TableBody>
         </Table>
       </div>
+
+      <RequestDetailDialog
+        request={selectedRequest}
+        onClose={() => setSelectedRequest(null)}
+        onSaved={(updated) => {
+          setRequests((prev) => prev.map((item) => (item.id === updated.id ? updated : item)));
+          setSelectedRequest(updated);
+        }}
+      />
     </div>
   );
 }
