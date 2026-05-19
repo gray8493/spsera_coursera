@@ -16,6 +16,7 @@ export default async function AdminDashboardPage() {
     email: request.email,
     password: request.password,
     courseTarget: request.courseTarget,
+    fptCode: request.fptCode,
     serviceType: request.serviceType,
     paymentAmount: request.paymentAmount,
     paymentStatus: request.paymentStatus,

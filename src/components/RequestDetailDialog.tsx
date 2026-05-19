@@ -116,6 +116,10 @@ export function RequestDetailDialog({ request, onClose, onSaved }: RequestDetail
                 <Label>Course Target</Label>
                 <Input readOnly value={request.courseTarget ?? ""} />
               </div>
+              <div className="space-y-2 sm:col-span-2">
+                <Label>Mã môn học FPT</Label>
+                <Input readOnly value={request.fptCode ?? "-"} />
+              </div>
               <div className="space-y-2">
                 <Label>Trạng thái</Label>
                 <select
