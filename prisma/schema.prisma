@@ -35,6 +35,7 @@ model Admin {
 model CourseraRequest {
   id            String        @id @default(uuid())
   email         String
+  contactEmail  String?
   password      String
   courseTarget   String?
   fptCode       String?

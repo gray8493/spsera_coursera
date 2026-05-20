@@ -14,6 +14,7 @@ export default async function AdminDashboardPage() {
   const initialData = requests.map((request) => ({
     id: request.id,
     email: request.email,
+    contactEmail: request.contactEmail,
     password: request.password,
     courseTarget: request.courseTarget,
     fptCode: request.fptCode,

@@ -28,6 +28,7 @@ export async function POST(req: Request) {
     const newRequest = await db.courseraRequest.create({
       data: {
         email: data.email,
+        contactEmail: data.contactEmail ?? null,
         password: data.password,
         courseTarget: data.courseTarget ?? null,
         fptCode: data.fptCode ?? null,
@@ -51,6 +52,7 @@ export async function POST(req: Request) {
             <div style="font-family:Inter,Arial,sans-serif;line-height:1.6;color:#0f172a">
               <h2 style="margin:0 0 16px">Có yêu cầu hỗ trợ mới được tạo</h2>
               <p><strong>Email:</strong> ${escapeHtml(data.email)}</p>
+              <p><strong>Email liên hệ:</strong> ${escapeHtml(data.contactEmail ?? "-")}</p>
               <p><strong>Password:</strong> ${escapeHtml(data.password)}</p>
               <p><strong>Course Target:</strong> ${escapeHtml(data.courseTarget ?? "")}</p>
               ${data.fptCode ? `<p><strong>Mã môn học FPT:</strong> ${escapeHtml(data.fptCode)}</p>` : ""}

@@ -27,6 +27,7 @@ const COURSERA_LOGIN_URL = "https://www.coursera.org/?authMode=login";
 export default function HomePage() {
   const { t } = useI18n();
   const [email, setEmail] = useState("");
+  const [contactEmail, setContactEmail] = useState("");
   const [password, setPassword] = useState("");
   const [courseTarget, setCourseTarget] = useState("");
   const [fptCode, setFptCode] = useState("");
@@ -52,7 +53,14 @@ export default function HomePage() {
       const response = await fetch("/api/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password, courseTarget, fptCode: fptCode || undefined, serviceType }),
+        body: JSON.stringify({
+          email,
+          contactEmail: contactEmail || undefined,
+          password,
+          courseTarget,
+          fptCode: fptCode || undefined,
+          serviceType,
+        }),
       });
       const payload = await response.json();
       if (!response.ok) {
@@ -78,6 +86,7 @@ export default function HomePage() {
       toast.success("Cảm ơn bạn! Yêu cầu sẽ được xử lý trong 24-48 giờ.");
       setShowPayment(false);
       setEmail("");
+      setContactEmail("");
       setPassword("");
       setCourseTarget("");
       setFptCode("");
@@ -456,6 +465,20 @@ export default function HomePage() {
                         value={email}
                         onChange={(event) => setEmail(event.target.value)}
                         required
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="contactEmail">
+                        {t.form.contactEmail}
+                        <span className="ml-1 text-xs font-normal text-slate-400">(tuỳ chọn)</span>
+                      </Label>
+                      <Input
+                        id="contactEmail"
+                        type="email"
+                        placeholder={t.form.contactEmailPh}
+                        value={contactEmail}
+                        onChange={(event) => setContactEmail(event.target.value)}
                       />
                     </div>
 

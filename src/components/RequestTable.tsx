@@ -27,6 +27,7 @@ export type RequestStatus = "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED";
 export type CourseraRequestRow = {
   id: string;
   email: string;
+  contactEmail: string | null;
   password: string;
   courseTarget: string | null;
   fptCode: string | null;
@@ -119,6 +120,7 @@ export function RequestTable({ initialData = [] }: RequestTableProps) {
     const matchSearch =
       searchTerm === "" ||
       r.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (r.contactEmail ?? "").toLowerCase().includes(searchTerm.toLowerCase()) ||
       (r.courseTarget ?? "").toLowerCase().includes(searchTerm.toLowerCase());
     const matchStatus = statusFilter === "ALL" || r.status === statusFilter;
     const matchPayment = paymentFilter === "ALL" || r.paymentStatus === paymentFilter;
@@ -201,6 +203,7 @@ export function RequestTable({ initialData = [] }: RequestTableProps) {
               <TableHead className="w-[180px]">Email</TableHead>
               <TableHead className="w-[120px]">Password</TableHead>
               <TableHead className="w-[160px]">Khóa học</TableHead>
+              <TableHead className="w-[180px]">Email liên hệ</TableHead>
               <TableHead className="w-[120px]">Dịch vụ</TableHead>
               <TableHead className="w-[100px]">Thanh toán</TableHead>
               <TableHead className="w-[120px]">Trạng thái</TableHead>
@@ -212,7 +215,7 @@ export function RequestTable({ initialData = [] }: RequestTableProps) {
           <TableBody>
             {filteredRequests.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={9} className="py-8 text-center text-slate-500">
+                <TableCell colSpan={10} className="py-8 text-center text-slate-500">
                   {loading ? "Đang tải..." : "Chưa có yêu cầu nào"}
                 </TableCell>
               </TableRow>
@@ -234,6 +237,7 @@ export function RequestTable({ initialData = [] }: RequestTableProps) {
                       </div>
                     </TableCell>
                     <TableCell className="max-w-[220px] whitespace-normal break-words text-sm">{r.courseTarget ?? "-"}</TableCell>
+                    <TableCell className="max-w-[180px] whitespace-normal break-words text-sm">{r.contactEmail ?? "-"}</TableCell>
                     <TableCell className="max-w-[140px] whitespace-normal break-words text-sm">{r.fptCode ?? "-"}</TableCell>
                     <TableCell className="text-xs">{SERVICE_LABELS[r.serviceType] || r.serviceType}</TableCell>
                     <TableCell>

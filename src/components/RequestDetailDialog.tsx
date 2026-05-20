@@ -109,6 +109,10 @@ export function RequestDetailDialog({ request, onClose, onSaved }: RequestDetail
                 <Input readOnly value={request.email} />
               </div>
               <div className="space-y-2">
+                <Label>Email liên hệ</Label>
+                <Input readOnly value={request.contactEmail ?? "-"} />
+              </div>
+              <div className="space-y-2">
                 <Label>Password</Label>
                 <Input readOnly value={request.password} />
               </div>
