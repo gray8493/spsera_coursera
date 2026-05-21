@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
 import { Copy, Mail, Save, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -25,7 +25,6 @@ async function copyText(value: string) {
 export function RequestDetailDialog({ request, onClose, onSaved }: RequestDetailDialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [isSaving, startSaveTransition] = useTransition();
-  const [isSending, startSendTransition] = useTransition();
   const [status, setStatus] = useState<RequestStatus>("PENDING");
   const [adminNotes, setAdminNotes] = useState("");
 
@@ -65,26 +64,38 @@ export function RequestDetailDialog({ request, onClose, onSaved }: RequestDetail
     });
   }
 
-  async function sendCertificateEmail() {
+  const gmailComposeUrl = useMemo(() => {
+    if (!request) return "";
+
+    const recipient = request.contactEmail ?? request.email;
+    const subject = request.courseTarget
+      ? `[Spera] Chúc mừng bạn đã nhận được chứng chỉ ${request.courseTarget}`
+      : "[Spera] Chúc mừng bạn đã nhận được chứng chỉ";
+    const body = [
+      "Xin chào bạn,",
+      "",
+      request.courseTarget
+        ? `Chúc mừng bạn đã nhận được chứng chỉ ${request.courseTarget}.`
+        : "Chúc mừng bạn đã nhận được chứng chỉ.",
+      "",
+      "Cảm ơn bạn đã sử dụng dịch vụ của Spera.",
+      "Spera đồng hành cùng bạn.",
+      "Giảm ngay 10k cho nhóm bạn từ 2 người.",
+      "",
+      "Link thêm vào email:",
+      "",
+      "",
+      "Trân trọng,",
+      "Spera",
+    ].join("\n");
+
+    return `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(recipient)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  }, [request]);
+
+  function openGmailCompose() {
     if (!request) return;
-    startSendTransition(() => {
-      void (async () => {
-        try {
-          const response = await fetch("/api/admin/requests/send-email", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ id: request.id }),
-          });
-
-          const payload = await response.json();
-          if (!response.ok) throw new Error(payload.error || "Không thể gửi email");
-
-          toast.success(`Đã gửi email tới ${payload.data.recipient}`);
-        } catch (error) {
-          toast.error(error instanceof Error ? error.message : "Đã xảy ra lỗi");
-        }
-      })();
-    });
+    window.open(gmailComposeUrl, "_blank", "noopener,noreferrer");
+    toast.success("Đã mở Gmail để soạn email");
   }
 
   return (
@@ -127,11 +138,10 @@ export function RequestDetailDialog({ request, onClose, onSaved }: RequestDetail
               <Button
                 variant="default"
                 size="sm"
-                onClick={sendCertificateEmail}
-                disabled={isSending}
+                onClick={openGmailCompose}
               >
                 <Mail className="h-4 w-4" />
-                {isSending ? "Đang gửi..." : "Gửi mail mẫu"}
+                Mở Gmail soạn mail
               </Button>
             </div>
 
