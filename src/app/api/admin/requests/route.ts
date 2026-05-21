@@ -82,3 +82,34 @@ export async function PATCH(req: Request) {
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
+
+export async function DELETE(req: Request) {
+  const session = await getAdminSession();
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  try {
+    let body: unknown;
+    try {
+      body = await req.json();
+    } catch {
+      return NextResponse.json({ error: "JSON không hợp lệ" }, { status: 400 });
+    }
+
+    const payload = body as { id?: unknown };
+    const id = typeof payload.id === "string" ? payload.id : "";
+    if (!id) {
+      return NextResponse.json({ error: "Thiếu ID" }, { status: 400 });
+    }
+
+    await db.courseraRequest.delete({
+      where: { id },
+    });
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Đã xảy ra lỗi";
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
+}

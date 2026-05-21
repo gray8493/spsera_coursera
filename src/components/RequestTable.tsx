@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useTransition } from "react";
 import {
   Table,
   TableBody,
@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { RefreshCw, Eye, EyeOff, Search, Filter } from "lucide-react";
+import { RefreshCw, Eye, EyeOff, Search, Filter, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { RequestDetailDialog } from "@/components/RequestDetailDialog";
 
@@ -70,6 +70,7 @@ export function RequestTable({ initialData = [] }: RequestTableProps) {
   const [statusFilter, setStatusFilter] = useState("ALL");
   const [paymentFilter, setPaymentFilter] = useState("ALL");
   const [selectedRequest, setSelectedRequest] = useState<CourseraRequestRow | null>(null);
+  const [isDeleting, startDeleteTransition] = useTransition();
 
   const fetchRequests = useCallback(async () => {
     setLoading(true);
@@ -114,6 +115,32 @@ export function RequestTable({ initialData = [] }: RequestTableProps) {
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Lỗi");
     }
+  };
+
+  const deleteRequest = (request: CourseraRequestRow) => {
+    const confirmed = window.confirm(`Xóa record của ${request.email}? Hành động này không thể hoàn tác.`);
+    if (!confirmed) return;
+
+    startDeleteTransition(() => {
+      void (async () => {
+        try {
+          const res = await fetch("/api/admin/requests", {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: request.id }),
+          });
+          const payload = await res.json();
+          if (!res.ok) throw new Error(payload.error || "Không thể xóa record");
+          setRequests((prev) => prev.filter((item) => item.id !== request.id));
+          if (selectedRequest?.id === request.id) {
+            setSelectedRequest(null);
+          }
+          toast.success("Đã xóa record");
+        } catch (error) {
+          toast.error(error instanceof Error ? error.message : "Đã xảy ra lỗi");
+        }
+      })();
+    });
   };
 
   const filteredRequests = requests.filter((r) => {
@@ -200,6 +227,7 @@ export function RequestTable({ initialData = [] }: RequestTableProps) {
         <Table>
           <TableHeader>
             <TableRow className="bg-slate-50">
+              <TableHead className="w-[72px]">#</TableHead>
               <TableHead className="w-[180px]">Email</TableHead>
               <TableHead className="w-[120px]">Password</TableHead>
               <TableHead className="w-[160px]">Khóa học</TableHead>
@@ -209,22 +237,23 @@ export function RequestTable({ initialData = [] }: RequestTableProps) {
               <TableHead className="w-[120px]">Trạng thái</TableHead>
               <TableHead className="w-[140px]">Mã môn FPT</TableHead>
               <TableHead className="w-[160px]">Thời gian</TableHead>
-              <TableHead className="sticky right-0 z-10 w-[160px] bg-slate-50">Chi tiết</TableHead>
+              <TableHead className="sticky right-0 z-10 w-[220px] bg-slate-50">Thao tác</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {filteredRequests.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={10} className="py-8 text-center text-slate-500">
+                <TableCell colSpan={11} className="py-8 text-center text-slate-500">
                   {loading ? "Đang tải..." : "Chưa có yêu cầu nào"}
                 </TableCell>
               </TableRow>
             ) : (
-              filteredRequests.map((r) => {
+              filteredRequests.map((r, index) => {
                 const st = STATUS_LABELS[r.status] || STATUS_LABELS.PENDING;
                 const pt = PAYMENT_LABELS[r.paymentStatus] || PAYMENT_LABELS.UNPAID;
                 return (
                   <TableRow key={r.id}>
+                    <TableCell className="text-xs font-medium text-slate-500">{index + 1}</TableCell>
                     <TableCell className="max-w-[180px] truncate text-sm font-medium">{r.email}</TableCell>
                     <TableCell className="text-sm">
                       <div className="flex items-center gap-1">
@@ -269,16 +298,30 @@ export function RequestTable({ initialData = [] }: RequestTableProps) {
                       {new Date(r.createdAt).toLocaleString("vi-VN")}
                     </TableCell>
                     <TableCell className="sticky right-0 bg-white shadow-[-8px_0_12px_-12px_rgba(15,23,42,0.35)]">
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        className="w-full justify-center whitespace-nowrap"
-                        aria-label={`Xem chi tiết yêu cầu của ${r.email}`}
-                        onClick={() => setSelectedRequest(r)}
-                      >
-                        Xem chi tiết
-                      </Button>
+                      <div className="flex gap-2">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          className="flex-1 justify-center whitespace-nowrap"
+                          aria-label={`Xem chi tiết yêu cầu của ${r.email}`}
+                          onClick={() => setSelectedRequest(r)}
+                        >
+                          Xem chi tiết
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="sm"
+                          className="flex-1 justify-center whitespace-nowrap"
+                          aria-label={`Xóa record của ${r.email}`}
+                          onClick={() => deleteRequest(r)}
+                          disabled={isDeleting}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                          Xóa
+                        </Button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 );

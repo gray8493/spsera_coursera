@@ -18,6 +18,11 @@ export const adminLoginSchema = z.object({
   password: z.string().min(1).max(200),
 });
 
+export const adminCreateSchema = z.object({
+  username: z.string().trim().min(1).max(100),
+  password: z.string().min(6).max(200),
+});
+
 export const statusSchema = z.enum(["PENDING", "PROCESSING", "COMPLETED", "FAILED"]);
 
 export const paymentStatusSchema = z.enum(["UNPAID", "PAID", "VERIFIED"]);
