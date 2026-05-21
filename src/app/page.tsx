@@ -143,32 +143,6 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="relative">
-            <div className="absolute -left-8 top-10 h-28 w-28 rounded-full bg-blue-200/40 blur-3xl" />
-            <div className="absolute -right-6 bottom-6 h-36 w-36 rounded-full bg-emerald-200/40 blur-3xl" />
-            <div className="relative rounded-3xl border border-slate-200 bg-white p-6 shadow-2xl shadow-blue-100/30 sm:p-8">
-              <div className="rounded-2xl bg-slate-950 p-5 text-white">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-semibold text-slate-300">Dịch vụ hỗ trợ</span>
-                  <span className="rounded-full bg-emerald-500/15 px-3 py-1 text-xs font-semibold text-emerald-300">Online</span>
-                </div>
-                <div className="mt-6 space-y-4">
-                  <div className="rounded-2xl bg-white/8 p-4 ring-1 ring-white/10">
-                    <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Nhanh chóng</p>
-                    <p className="mt-2 text-base font-semibold">Quy trình rõ ràng, xử lý gọn.</p>
-                  </div>
-                  <div className="rounded-2xl bg-white/8 p-4 ring-1 ring-white/10">
-                    <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Uy tín</p>
-                    <p className="mt-2 text-base font-semibold">Theo dõi tiến độ minh bạch.</p>
-                  </div>
-                  <div className="rounded-2xl bg-white/8 p-4 ring-1 ring-white/10">
-                    <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Bảo mật</p>
-                    <p className="mt-2 text-base font-semibold">Giữ thông tin an toàn và riêng tư.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
