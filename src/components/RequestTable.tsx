@@ -209,7 +209,7 @@ export function RequestTable({ initialData = [] }: RequestTableProps) {
               <TableHead className="w-[120px]">Trạng thái</TableHead>
               <TableHead className="w-[140px]">Mã môn FPT</TableHead>
               <TableHead className="w-[160px]">Thời gian</TableHead>
-              <TableHead className="w-[120px]">Chi tiết</TableHead>
+              <TableHead className="sticky right-0 z-10 w-[160px] bg-slate-50">Chi tiết</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -268,14 +268,16 @@ export function RequestTable({ initialData = [] }: RequestTableProps) {
                     <TableCell className="whitespace-nowrap text-xs text-slate-500">
                       {new Date(r.createdAt).toLocaleString("vi-VN")}
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="sticky right-0 bg-white shadow-[-8px_0_12px_-12px_rgba(15,23,42,0.35)]">
                       <Button
                         type="button"
                         variant="outline"
                         size="sm"
+                        className="w-full justify-center whitespace-nowrap"
+                        aria-label={`Xem chi tiết yêu cầu của ${r.email}`}
                         onClick={() => setSelectedRequest(r)}
                       >
-                        Xem
+                        Xem chi tiết
                       </Button>
                     </TableCell>
                   </TableRow>
