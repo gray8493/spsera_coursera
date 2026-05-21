@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
-import { Copy, Save, X } from "lucide-react";
+import { Copy, Mail, Save, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -24,7 +24,8 @@ async function copyText(value: string) {
 
 export function RequestDetailDialog({ request, onClose, onSaved }: RequestDetailDialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const [isPending, startTransition] = useTransition();
+  const [isSaving, startSaveTransition] = useTransition();
+  const [isSending, startSendTransition] = useTransition();
   const [status, setStatus] = useState<RequestStatus>("PENDING");
   const [adminNotes, setAdminNotes] = useState("");
 
@@ -40,7 +41,7 @@ export function RequestDetailDialog({ request, onClose, onSaved }: RequestDetail
 
   async function save() {
     if (!request) return;
-    startTransition(() => {
+    startSaveTransition(() => {
       void (async () => {
         try {
           const response = await fetch("/api/admin/requests", {
@@ -57,6 +58,28 @@ export function RequestDetailDialog({ request, onClose, onSaved }: RequestDetail
           onSaved(payload.data);
           toast.success("Đã lưu chi tiết yêu cầu");
           onClose();
+        } catch (error) {
+          toast.error(error instanceof Error ? error.message : "Đã xảy ra lỗi");
+        }
+      })();
+    });
+  }
+
+  async function sendCertificateEmail() {
+    if (!request) return;
+    startSendTransition(() => {
+      void (async () => {
+        try {
+          const response = await fetch("/api/admin/requests/send-email", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: request.id }),
+          });
+
+          const payload = await response.json();
+          if (!response.ok) throw new Error(payload.error || "Không thể gửi email");
+
+          toast.success(`Đã gửi email tới ${payload.data.recipient}`);
         } catch (error) {
           toast.error(error instanceof Error ? error.message : "Đã xảy ra lỗi");
         }
@@ -101,6 +124,15 @@ export function RequestDetailDialog({ request, onClose, onSaved }: RequestDetail
                 <Copy className="h-4 w-4" />
                 Copy email
               </Button>
+              <Button
+                variant="default"
+                size="sm"
+                onClick={sendCertificateEmail}
+                disabled={isSending}
+              >
+                <Mail className="h-4 w-4" />
+                {isSending ? "Đang gửi..." : "Gửi mail mẫu"}
+              </Button>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
@@ -111,6 +143,10 @@ export function RequestDetailDialog({ request, onClose, onSaved }: RequestDetail
               <div className="space-y-2">
                 <Label>Email liên hệ</Label>
                 <Input readOnly value={request.contactEmail ?? "-"} />
+              </div>
+              <div className="space-y-2 sm:col-span-2">
+                <Label>Email nhận mail mẫu</Label>
+                <Input readOnly value={request.contactEmail ?? request.email} />
               </div>
               <div className="space-y-2">
                 <Label>Password</Label>
@@ -157,7 +193,7 @@ export function RequestDetailDialog({ request, onClose, onSaved }: RequestDetail
             <Button variant="outline" onClick={onClose}>
               Hủy
             </Button>
-            <Button onClick={save} disabled={isPending}>
+            <Button onClick={save} disabled={isSaving}>
               <Save className="h-4 w-4" />
               Lưu thay đổi
             </Button>
