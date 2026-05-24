@@ -238,7 +238,6 @@ export function RequestTable({ initialData = [] }: RequestTableProps) {
               <TableHead className="w-[180px]">Email</TableHead>
               <TableHead className="w-[120px]">Password</TableHead>
               <TableHead className="w-[160px]">Khóa học</TableHead>
-              <TableHead className="w-[180px]">Email liên hệ</TableHead>
               <TableHead className="w-[140px]">Mã môn FPT</TableHead>
               <TableHead className="w-[120px]">Dịch vụ</TableHead>
               <TableHead className="w-[110px]">Thanh toán</TableHead>
@@ -250,7 +249,7 @@ export function RequestTable({ initialData = [] }: RequestTableProps) {
           <TableBody>
             {filteredRequests.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={11} className="py-8 text-center text-slate-500">
+                <TableCell colSpan={10} className="py-8 text-center text-slate-500">
                   {loading ? "Đang tải..." : "Chưa có yêu cầu nào"}
                 </TableCell>
               </TableRow>
@@ -273,7 +272,6 @@ export function RequestTable({ initialData = [] }: RequestTableProps) {
                       </div>
                     </TableCell>
                     <TableCell className="max-w-[220px] whitespace-normal break-words text-sm">{r.courseTarget ?? "-"}</TableCell>
-                    <TableCell className="max-w-[180px] whitespace-normal break-words text-sm">{r.contactEmail ?? "-"}</TableCell>
                     <TableCell className="max-w-[140px] whitespace-normal break-words text-sm">{r.fptCode ?? "-"}</TableCell>
                     <TableCell className="text-xs">{SERVICE_LABELS[r.serviceType] || r.serviceType}</TableCell>
                     <TableCell className="min-w-[150px]">
