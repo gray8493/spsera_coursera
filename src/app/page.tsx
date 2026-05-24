@@ -1,6 +1,6 @@
 "use client";
 
-import { type FormEvent, useState } from "react";
+import { type FormEvent, useEffect, useState } from "react";
 import { toast } from "sonner";
 import {
   Eye,
@@ -45,6 +45,23 @@ export default function HomePage() {
   const qrUrl = currentRequestId
     ? getVietQrUrl(amount, transferContent)
     : "";
+
+  useEffect(() => {
+    const storageKey = "coursera-site-visit-tracked";
+    if (window.sessionStorage.getItem(storageKey)) {
+      return;
+    }
+
+    window.sessionStorage.setItem(storageKey, "1");
+    void fetch("/api/analytics/visit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        path: "/",
+        referrer: document.referrer || undefined,
+      }),
+    });
+  }, []);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();

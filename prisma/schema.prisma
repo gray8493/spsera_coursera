@@ -51,3 +51,13 @@ model CourseraRequest {
   @@index([email])
   @@index([paymentStatus])
 }
+
+model VisitEvent {
+  id         String   @id @default(uuid())
+  path       String
+  referrer   String?
+  createdAt  DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([path])
+}
