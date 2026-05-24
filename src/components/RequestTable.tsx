@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState, useCallback, useTransition } from "react";
 import {
@@ -232,10 +232,10 @@ export function RequestTable({ initialData = [] }: RequestTableProps) {
               <TableHead className="w-[120px]">Password</TableHead>
               <TableHead className="w-[160px]">Khóa học</TableHead>
               <TableHead className="w-[180px]">Email liên hệ</TableHead>
+              <TableHead className="w-[140px]">Mã môn FPT</TableHead>
               <TableHead className="w-[120px]">Dịch vụ</TableHead>
               <TableHead className="w-[100px]">Thanh toán</TableHead>
               <TableHead className="w-[120px]">Trạng thái</TableHead>
-              <TableHead className="w-[140px]">Mã môn FPT</TableHead>
               <TableHead className="w-[160px]">Thời gian</TableHead>
               <TableHead className="sticky right-0 z-10 w-[220px] bg-slate-50">Thao tác</TableHead>
             </TableRow>
