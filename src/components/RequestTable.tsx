@@ -62,6 +62,13 @@ const SERVICE_LABELS: Record<string, string> = {
   SKIP_VIDEO: "Skip Video & Reading (20K)",
 };
 
+const STATUS_ACTIONS: Array<{ value: RequestStatus; label: string }> = [
+  { value: "PENDING", label: "Chờ" },
+  { value: "PROCESSING", label: "Đang" },
+  { value: "COMPLETED", label: "Xong" },
+  { value: "FAILED", label: "Lỗi" },
+];
+
 export function RequestTable({ initialData = [] }: RequestTableProps) {
   const [requests, setRequests] = useState<CourseraRequestRow[]>(initialData);
   const [loading, setLoading] = useState(initialData.length === 0);
@@ -281,16 +288,28 @@ export function RequestTable({ initialData = [] }: RequestTableProps) {
                       </select>
                     </TableCell>
                     <TableCell className="min-w-[150px]">
-                      <select
-                        value={r.status}
-                        onChange={(event) => updateField(r.id, "status", event.target.value)}
-                        className={`h-7 w-[140px] rounded-md border px-2 text-xs outline-none transition focus:ring-2 focus:ring-ring ${st.className}`}
-                      >
-                        <option value="PENDING">Chờ xử lý</option>
-                        <option value="PROCESSING">Đang xử lý</option>
-                        <option value="COMPLETED">Hoàn thành</option>
-                        <option value="FAILED">Thất bại</option>
-                      </select>
+                      <div className="space-y-2">
+                        <div className={`inline-flex rounded-full border px-2.5 py-1 text-[11px] font-semibold ${st.className}`}>
+                          {st.label}
+                        </div>
+                        <div className="grid grid-cols-2 gap-1.5">
+                          {STATUS_ACTIONS.map((option) => (
+                            <button
+                              key={option.value}
+                              type="button"
+                              onClick={() => updateField(r.id, "status", option.value)}
+                              className={`rounded-md border px-2 py-1 text-[11px] font-medium transition ${
+                                r.status === option.value
+                                  ? "border-slate-900 bg-slate-900 text-white"
+                                  : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:text-slate-900"
+                              }`}
+                              title={`Đổi trạng thái sang ${option.label}`}
+                            >
+                              {option.label}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
                     </TableCell>
                     <TableCell className="whitespace-nowrap text-xs text-slate-500">
                       {new Date(r.createdAt).toLocaleString("vi-VN")}
