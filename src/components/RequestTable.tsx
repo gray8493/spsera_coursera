@@ -234,8 +234,8 @@ export function RequestTable({ initialData = [] }: RequestTableProps) {
               <TableHead className="w-[180px]">Email liên hệ</TableHead>
               <TableHead className="w-[140px]">Mã môn FPT</TableHead>
               <TableHead className="w-[120px]">Dịch vụ</TableHead>
-              <TableHead className="w-[100px]">Thanh toán</TableHead>
-              <TableHead className="w-[120px]">Trạng thái</TableHead>
+              <TableHead className="w-[110px]">Thanh toán</TableHead>
+              <TableHead className="w-[150px]">Trạng thái</TableHead>
               <TableHead className="w-[160px]">Thời gian</TableHead>
               <TableHead className="sticky right-0 z-10 w-[220px] bg-slate-50">Thao tác</TableHead>
             </TableRow>
@@ -269,9 +269,9 @@ export function RequestTable({ initialData = [] }: RequestTableProps) {
                     <TableCell className="max-w-[180px] whitespace-normal break-words text-sm">{r.contactEmail ?? "-"}</TableCell>
                     <TableCell className="max-w-[140px] whitespace-normal break-words text-sm">{r.fptCode ?? "-"}</TableCell>
                     <TableCell className="text-xs">{SERVICE_LABELS[r.serviceType] || r.serviceType}</TableCell>
-                    <TableCell>
+                    <TableCell className="min-w-[150px]">
                       <Select value={r.paymentStatus} onValueChange={(v) => updateField(r.id, "paymentStatus", v)}>
-                        <SelectTrigger className={`h-7 w-full border text-xs ${pt.className}`}>
+                        <SelectTrigger className={`h-7 w-[110px] border text-xs ${pt.className}`}>
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -281,9 +281,9 @@ export function RequestTable({ initialData = [] }: RequestTableProps) {
                         </SelectContent>
                       </Select>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="min-w-[150px]">
                       <Select value={r.status} onValueChange={(v) => updateField(r.id, "status", v)}>
-                        <SelectTrigger className={`h-7 w-full border text-xs ${st.className}`}>
+                        <SelectTrigger className={`h-7 w-[140px] border text-xs ${st.className}`}>
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
