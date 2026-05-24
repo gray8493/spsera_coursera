@@ -270,29 +270,27 @@ export function RequestTable({ initialData = [] }: RequestTableProps) {
                     <TableCell className="max-w-[140px] whitespace-normal break-words text-sm">{r.fptCode ?? "-"}</TableCell>
                     <TableCell className="text-xs">{SERVICE_LABELS[r.serviceType] || r.serviceType}</TableCell>
                     <TableCell className="min-w-[150px]">
-                      <Select value={r.paymentStatus} onValueChange={(v) => updateField(r.id, "paymentStatus", v)}>
-                        <SelectTrigger className={`h-7 w-[110px] border text-xs ${pt.className}`}>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="UNPAID">Chưa TT</SelectItem>
-                          <SelectItem value="PAID">Đã TT</SelectItem>
-                          <SelectItem value="VERIFIED">Xác nhận</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <select
+                        value={r.paymentStatus}
+                        onChange={(event) => updateField(r.id, "paymentStatus", event.target.value)}
+                        className={`h-7 w-[110px] rounded-md border px-2 text-xs outline-none transition focus:ring-2 focus:ring-ring ${pt.className}`}
+                      >
+                        <option value="UNPAID">Chưa TT</option>
+                        <option value="PAID">Đã TT</option>
+                        <option value="VERIFIED">Xác nhận</option>
+                      </select>
                     </TableCell>
                     <TableCell className="min-w-[150px]">
-                      <Select value={r.status} onValueChange={(v) => updateField(r.id, "status", v)}>
-                        <SelectTrigger className={`h-7 w-[140px] border text-xs ${st.className}`}>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="PENDING">Chờ xử lý</SelectItem>
-                          <SelectItem value="PROCESSING">Đang xử lý</SelectItem>
-                          <SelectItem value="COMPLETED">Hoàn thành</SelectItem>
-                          <SelectItem value="FAILED">Thất bại</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <select
+                        value={r.status}
+                        onChange={(event) => updateField(r.id, "status", event.target.value)}
+                        className={`h-7 w-[140px] rounded-md border px-2 text-xs outline-none transition focus:ring-2 focus:ring-ring ${st.className}`}
+                      >
+                        <option value="PENDING">Chờ xử lý</option>
+                        <option value="PROCESSING">Đang xử lý</option>
+                        <option value="COMPLETED">Hoàn thành</option>
+                        <option value="FAILED">Thất bại</option>
+                      </select>
                     </TableCell>
                     <TableCell className="whitespace-nowrap text-xs text-slate-500">
                       {new Date(r.createdAt).toLocaleString("vi-VN")}
